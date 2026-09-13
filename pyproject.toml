@@ -1,0 +1,14 @@
+[project]
+name = "audiophile-e2e-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "apache-airflow>=3.3.1",
+    "apache-airflow-providers-amazon>=9.35.1",
+    "beautifulsoup4>=4.15.0",
+    "clickhouse-connect>=1.8.0",
+    "pandas>=3.0.5",
+    "requests>=2.34.2",
+]
