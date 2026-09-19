@@ -1,7 +1,19 @@
-// order headphones/iems by price bracket (from low to high), then by value_rating length for looking for the best value
+
+  
+    
+    
+    
+        
+
+
+        
+  
+
+  insert into `default`.`mart_audiophile_best_value__dbt_backup`
+        ("device_type", "price_bracket", "model", "price_usd", "tone_grade", "technical_grade")// order headphones/iems by price bracket (from low to high), then by value_rating length for looking for the best value
 
 with stg as (
-    select * from {{ ref('stg_audiophile') }}
+    select * from `default`.`stg_audiophile`
     where price_usd is not null
       and not is_discontinued
 ),
@@ -38,3 +50,4 @@ order by
         5
     ),
     length(value_rating) desc
+  

@@ -1,5 +1,5 @@
 with source as (
-    select * from {{ source('raw', 'raw_audiophile') }}
+    select * from `default`.`raw_audiophile`
 ),
 
 cleaned as (

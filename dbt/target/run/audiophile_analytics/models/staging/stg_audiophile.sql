@@ -1,5 +1,15 @@
-with source as (
-    select * from {{ source('raw', 'raw_audiophile') }}
+
+
+  create or replace view `default`.`stg_audiophile` 
+  
+    
+  
+  
+    
+    
+  as (
+    with source as (
+    select * from `default`.`raw_audiophile`
 ),
 
 cleaned as (
@@ -30,3 +40,9 @@ cleaned as (
 )
 
 select * from cleaned
+    
+  )
+      
+      
+-- end_of_sql
+

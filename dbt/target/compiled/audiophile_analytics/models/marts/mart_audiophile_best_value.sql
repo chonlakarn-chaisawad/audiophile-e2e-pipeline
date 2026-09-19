@@ -1,7 +1,7 @@
 // order headphones/iems by price bracket (from low to high), then by value_rating length for looking for the best value
 
 with stg as (
-    select * from {{ ref('stg_audiophile') }}
+    select * from `default`.`stg_audiophile`
     where price_usd is not null
       and not is_discontinued
 ),

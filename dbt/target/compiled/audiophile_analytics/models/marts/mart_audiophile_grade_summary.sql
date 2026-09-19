@@ -2,7 +2,7 @@
 // show many of each technical grade , average price, min price, and max price
 
 with stg as (
-    select * from {{ ref('stg_audiophile') }}
+    select * from `default`.`stg_audiophile`
 )
 
 select

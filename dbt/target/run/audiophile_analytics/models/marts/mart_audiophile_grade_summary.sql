@@ -1,8 +1,20 @@
-// show data summary of audiophile models by device type and technical grade
+
+  
+    
+    
+    
+        
+
+
+        
+  
+
+  insert into `default`.`mart_audiophile_grade_summary__dbt_backup`
+        ("device_type", "technical_grade", "model_count", "discontinued_count", "avg_price_usd", "min_price_usd", "max_price_usd")// show data summary of audiophile models by device type and technical grade
 // show many of each technical grade , average price, min price, and max price
 
 with stg as (
-    select * from {{ ref('stg_audiophile') }}
+    select * from `default`.`stg_audiophile`
 )
 
 select
@@ -28,3 +40,4 @@ order by
         8
     ),
     technical_grade
+  
