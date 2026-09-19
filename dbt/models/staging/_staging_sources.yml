@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: raw
+    database: default
+    tables:
+      - name: raw_audiophile
+        description: >
+          ตารางดิบที่ scrape มาจาก crinacle.com/rankings/ (ทั้ง headphones และ iems รวมกัน)
+          ทุกคอลัมน์เป็น String หมด
+        columns:
+          - name: device_type
+            description: "'headphones' หรือ 'iems'"
+          - name: model
+            description: "ชื่อรุ่น"
+          - name: price
+            description: "ราคา MSRP แบบ string ดิบ (มีค่า 'Discont.', '-' ปนอยู่)"

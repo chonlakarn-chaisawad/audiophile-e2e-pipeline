@@ -1,0 +1,13 @@
+audiophile_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      driver: http
+      host: "{{ env_var('DBT_CLICKHOUSE_HOST', 'clickhouse') }}"
+      port: 8123
+      user: default
+      password: clickhouse
+      schema: default
+      secure: false
+      threads: 2

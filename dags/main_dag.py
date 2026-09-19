@@ -73,7 +73,7 @@ def audiophile_e2e_pipeline():
         import pandas as pd
 
         df = pd.read_csv(raw_path, dtype=str)
-        df = df.dropna(how="all")  # ทิ้งเฉพาะแถวที่ว่างทั้งแถว
+        df = df.dropna(how="all")
 
         clean_path = "/tmp/audiophile_clean.csv"
         df.to_csv(clean_path, index=False)
