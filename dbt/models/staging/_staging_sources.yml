@@ -10,8 +10,28 @@ sources:
           ทุกคอลัมน์เป็น String หมด
         columns:
           - name: device_type
-            description: "'headphones' หรือ 'iems'"
+            description: "'headphones' or 'iems'"
+          - name: rank
+            description: "grade of that modal (S+ , S , S- ,A+, A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F)"
+          - name: value_rating
+            description: "worth rating of that modal"
           - name: model
-            description: "ชื่อรุ่น"
+            description: "name of headphones/iems"
           - name: price
-            description: "ราคา MSRP แบบ string ดิบ (มีค่า 'Discont.', '-' ปนอยู่)"
+            description: "price of that modal"
+          - name: signature
+            description: "sound style of that modal (e.g. Harman neutral, Neutral, Warm neutral, Bright neutral, etc.)"
+          - name: comments
+            description: "notes/comments about that modal"
+          - name: tone_grade
+            description: "grade of the tonality"
+          - name: technical_grade
+            description: "grade of the technical"
+          - name: driver_type
+            description: "driver_type of headphones and setup of iems"
+          - name: fit_cup
+            description: "fit type of that modal just (Open / Semi-open / Closed Circumaural) (only headphones)"
+          - name: based_on
+            description: "source of that modal (e.g. Crinacle, Innerfidelity, Rtings, etc.) (only headphones)"
+          - name: status
+            description: "status of that modal (only iems)"

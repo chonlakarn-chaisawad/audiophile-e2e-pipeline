@@ -1,9 +1,17 @@
+from __future__ import annotations
+
 import pendulum
 from airflow.sdk import dag, task
 from airflow.sdk.bases.hook import BaseHook
 
+from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
+from pathlib import Path
+
 CLICKHOUSE_CONN_ID = "clickhouse_conn"
 BASE_URL = "https://crinacle.com/rankings/"
+DBT_PROJECT_DIR = Path("/opt/airflow/dbt")
+
+EXCLUDE_COLUMNS = {"note_weight", "ranksort", "tonesort", "techsort", "pricesort"}
 
 
 @dag(
@@ -11,9 +19,9 @@ BASE_URL = "https://crinacle.com/rankings/"
     schedule=None,
     start_date=pendulum.datetime(2026, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["audiophile", "clickhouse"],
+    tags=["audiophile", "clickhouse", "dbt"],
     doc_md="""
-    get data audiophile from https://crinacle.com/rankings/ (data sources) to ClickHouse
+    get data audiophile from https://crinacle.com/rankings/ (data sources) to ClickHouse -> transform with dbt
     """,
 )
 def audiophile_e2e_pipeline():
@@ -25,22 +33,25 @@ def audiophile_e2e_pipeline():
         import requests
         from bs4 import BeautifulSoup
 
+        HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; audiophile-pipeline/1.0)"}
+
         def clean_headers(headers: list) -> list:
             clean = []
             for header in headers:
+                header = header.strip()
                 if "(" in header or "/" in header:
                     header = header.split(" ")[0]
                 if header == "Setup":
                     header = "driver_type"
-                clean.append(
-                    re.sub(r"(?<=[a-z])(?=[A-Z])|[^a-zA-Z]", " ", header)
-                    .replace(" ", "_")
-                    .lower()
-                )
+                normalized = re.sub(
+                    r"(?<=[a-z])(?=[A-Z])|[^a-zA-Z]+", "_", header
+                ).strip("_").lower()
+                clean.append(normalized)
             return clean
 
         def scrape(device_type: str) -> list:
-            response = requests.get(BASE_URL + device_type, timeout=30)
+            url = BASE_URL + device_type
+            response = requests.get(url, headers=HEADERS, timeout=30)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
 
@@ -63,6 +74,8 @@ def audiophile_e2e_pipeline():
         iems = scrape("iems")
 
         df = pd.DataFrame(headphones + iems)
+
+        df = df.drop(columns=[c for c in EXCLUDE_COLUMNS if c in df.columns], errors="ignore")
 
         output_path = "/tmp/audiophile_raw.csv"
         df.to_csv(output_path, index=False)
@@ -95,9 +108,11 @@ def audiophile_e2e_pipeline():
         df = pd.read_csv(clean_path, dtype=str).fillna("")
 
         columns_ddl = ",\n                ".join(f"`{col}` String" for col in df.columns)
+
+        client.command("DROP TABLE IF EXISTS raw_audiophile")
         client.command(
             f"""
-            CREATE TABLE IF NOT EXISTS raw_audiophile
+            CREATE TABLE raw_audiophile
             (
                 {columns_ddl}
             )
@@ -108,9 +123,29 @@ def audiophile_e2e_pipeline():
 
         client.insert_df("raw_audiophile", df)
 
+    # --- dbt transform ---
+    profile_config = ProfileConfig(
+        profile_name="audiophile_analytics",
+        target_name="dev",
+        profiles_yml_filepath=DBT_PROJECT_DIR / "profiles.yml",
+    )
+
+    execution_config = ExecutionConfig(
+        dbt_executable_path="/home/airflow/.local/bin/dbt",
+    )
+
+    dbt_transform = DbtTaskGroup(
+        group_id="dbt_transform",
+        project_config=ProjectConfig(DBT_PROJECT_DIR),
+        profile_config=profile_config,
+        execution_config=execution_config,
+    )
+
     raw_path = scrape_audiophile_data()
     clean_path = validate_and_clean(raw_path)
-    load_to_clickhouse(clean_path)
+    load_task = load_to_clickhouse(clean_path)
+
+    load_task >> dbt_transform
 
 
 audiophile_e2e_pipeline()
