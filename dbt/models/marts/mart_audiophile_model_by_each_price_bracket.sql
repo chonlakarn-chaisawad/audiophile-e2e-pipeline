@@ -1,21 +1,9 @@
-
-  
-    
-    
-    
-        
-
-
-        
-  
-
-  insert into `default`.`mart_audiophile_best_value__dbt_backup`
-        ("device_type", "price_bracket", "value_rating", "model", "price_usd", "tone_grade", "technical_grade")// order headphones/iems by price bracket (from low to high), then by value_rating length for looking for the best value
+// show data number of model by device_type by each price_bracket
 
 with stg as (
-    select * from `default`.`stg_audiophile`
+    select * from {{ ref('stg_audiophile') }}
     where price_usd is not null
-      and not is_discontinued
+        and not is_discontinued
 ),
 
 bracketed as (
@@ -34,13 +22,10 @@ bracketed as (
 select
     device_type,
     price_bracket,
-    value_rating,
-    model,
-    price_usd,
-    tone_grade,
-    technical_grade,
+    count(*)                as model_count,
+    round(avg(price_usd), 2) as avg_price_usd
 from bracketed
-where value_rating != ''
+group by device_type, price_bracket
 order by
     multiIf(
         price_bracket = 'Under $100', 1,
@@ -49,5 +34,4 @@ order by
         price_bracket = '$700-$1500', 4,
         5
     ),
-    length(value_rating) desc
-  
+    device_type

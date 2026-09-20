@@ -1,17 +1,17 @@
 {
   "target_dir": "/Users/chonlakarn/data/audiophile-e2e-pipeline/dbt/target",
   "fingerprints": {
+    "run_results.json": {
+      "size": 12990,
+      "modified_secs": 1789905030
+    },
     "semantic_manifest.json": {
       "size": 234,
-      "modified_secs": 1789842360
+      "modified_secs": 1789905029
     },
     "manifest.json": {
-      "size": 610618,
-      "modified_secs": 1789842361
-    },
-    "run_results.json": {
-      "size": 11292,
-      "modified_secs": 1789842361
+      "size": 615251,
+      "modified_secs": 1789905030
     }
   },
   "write_source": "DirectWrite",

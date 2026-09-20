@@ -22,7 +22,7 @@ bracketed as (
 select
     device_type,
     price_bracket,
-    value_rating
+    value_rating,
     model,
     price_usd,
     tone_grade,
