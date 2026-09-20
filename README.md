@@ -169,16 +169,19 @@ Now we want to re-search about audiophile for our new product. We have two choic
 ## 📝 Question
 
 **What did you learn from this project?**
+
 Data from source have 2 table but I pull to clickhouse together in 1 table so some column if it same meaning but difference name it pull for two so I must clean it before for make it in same column. Data from 2 table have text in field difference but same meaning (Discontinued กับ Discont.) so if i don't clean it, if i count Discontinued product it will incorrect because it doesn't count Discont. With Myself, I'm not good for set project, must back to see what the old project do to do this and in 4 step of this home work i think i do DBT is the best because I happy. when i code sql.
 
 ข้อมูล 2 ตารางมี column ชื่อคนละอันทำให้ตอนดึงมา มันดึงมาไม่ถูก , เพราะเอาข้อมูล 2 ตารางมารวมกัน มันเลยทำให้บางครั้ง text ใน field ต่างกันแม้แต่ความหมายเดียวกัน (Discontinued กับ Discont.) ต้องระวังดีๆ ที่เรียนรู้จากตัวเองคือเป็นคน set up project ไม่เก่งเลย ต้องพึ่ง repro เก่าเป็นแบบถึงจะไปต่อได้ แล้วก็ ใน 4 อย่างที่ไป ส่วนที่คิดว่าทำได้ดีที่สุดคือ dbt เพราะเขียน sql ได้
 
 **How would you improve it?**
+
 I quite worry about airflow because I spent time on it so so long. I think from study project it have data already but this I must do it by myself from URL and just repro example so i think i must try hard on it.
 
 ส่วนอื่นๆ ซึ่งจริงๆที่น่ากังวลจริงๆคือ airflow เป็นส่วนที่ใช้เวลานานที่สุด อาจเป็นเพราะอันนี้มันดึงจากข้างนอก ของที่เรียนมันมีข้อมูลในไฟล์ก็ต้องดูแบบจาก project ตัวอย่าง ซึ่งหนูว่าหนูยังทำ airflow ไม่ค่อยดี
 
 **If you had to do it all over again, what would you do differently?**
+
 I think i want to try pull it separate table (in this time i pull it together in one table) so if i must do it again it will try pull two table and do a lot of mart i think it so fun when i did it.
 
- airflow จะลองเขียนอีกแบบอันนี้เขียนดึงข้อมูล 2 ตารางมารวมเป็นอันเดียวใน clickhouse (หนูรู้สึกว่ามันน่าจะง่ายกว่า) ถ้าได้ทำใหม่จะลองดึงแยกกัน , ทำ mart เยอะๆ เยอะอีก หนูว่ามันสนุกดี
+airflow จะลองเขียนอีกแบบอันนี้เขียนดึงข้อมูล 2 ตารางมารวมเป็นอันเดียวใน clickhouse (หนูรู้สึกว่ามันน่าจะง่ายกว่า) ถ้าได้ทำใหม่จะลองดึงแยกกัน , ทำ mart เยอะๆ เยอะอีก หนูว่ามันสนุกดี
