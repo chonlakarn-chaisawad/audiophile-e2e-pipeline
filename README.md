@@ -6,12 +6,6 @@ Built as a homework project to practice orchestration, data warehousing, transfo
 
  Make Airflow + dbt + ClickHouse + Google Data Studio with audiophile data, and answer:
 
-## 📊 Live Dashboard
-
-**[Rating Headphones / IEM Dashboard →](https://datastudio.google.com/u/0/reporting/ca510186-1918-4b49-8053-7f9be086818e/page/eBM9F/edit)**
-
-![Dashboard preview](docs/dashboard-preview.png)
-
 ## 🏗️ Architecture
 
 ```
